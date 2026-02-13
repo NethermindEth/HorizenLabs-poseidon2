@@ -327,20 +327,21 @@ mod poseidon2_tests_babybear {
         for instance in instances {
             let t = instance.params.t;
             for _ in 0..1 {
-                let input1: Vec<Scalar> = (0..t).map(|x| FpBabyBear::from(x as u32)).collect();
+                let input1: Vec<Scalar> = (0..t).map(|x| FpBabyBear::from(15 - x as u32)).collect();
 
-                let mut input2: Vec<Scalar>;
-                loop {
-                    input2 = (0..t).map(|_| random_scalar()).collect();
-                    if input1 != input2 {
-                        break;
-                    }
-                }
+                // let mut input2: Vec<Scalar>;
+                // loop {
+                //     input2 = (0..t).map(|_| random_scalar()).collect();
+                //     if input1 != input2 {
+                //         break;
+                //     }
+                // }
 
                 println!("INPUT {:?}", input1);
                 let perm1 = instance.permutation(&input1);
                 println!("OUTPUT {:?}", perm1);
-                // Expected output on input [0..15]:   [1906786279, 1737026427, 1959749225, 700325316, 1638050605, 1021608788, 1726691001, 1761127344, 1552405120, 417318995, 36799261, 1215172152, 614923223, 1300746575, 957311597, 304856115]
+                // Expected output on input [0..15]: [1906786279, 1737026427, 1959749225, 700325316, 1638050605, 1021608788, 1726691001, 1761127344, 1552405120, 417318995, 36799261, 1215172152, 614923223, 1300746575, 957311597, 304856115]
+                // Expected output on input [15..0]: [418935550, 290312109, 1582160462, 275840810, 1906565755, 735795622, 776338246, 1235177379, 57156665, 1005479998, 1802403830, 337698487, 1359812170, 1540291456, 1600525356, 615611719]
                 // let perm2 = instance.permutation(&input1);
                 // let perm3 = instance.permutation(&input2);
                 // assert_eq!(perm1, perm2);
