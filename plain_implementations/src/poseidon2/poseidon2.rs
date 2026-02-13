@@ -86,33 +86,40 @@ impl<F: PrimeField> Poseidon2<F> {
         let t = self.params.t;
         let t4 = t / 4;
         for i in 0..t4 {
-            let start_index = i * 4;
-            let mut t_0 = input[start_index];
-            t_0.add_assign(&input[start_index + 1]);
-            let mut t_1 = input[start_index + 2];
-            t_1.add_assign(&input[start_index + 3]);
-            let mut t_2 = input[start_index + 1];
-            t_2.double_in_place();
-            t_2.add_assign(&t_1);
-            let mut t_3 = input[start_index + 3];
-            t_3.double_in_place();
-            t_3.add_assign(&t_0);
-            let mut t_4 = t_1;
-            t_4.double_in_place();
-            t_4.double_in_place();
-            t_4.add_assign(&t_3);
-            let mut t_5 = t_0;
-            t_5.double_in_place();
-            t_5.double_in_place();
-            t_5.add_assign(&t_2);
-            let mut t_6 = t_3;
-            t_6.add_assign(&t_5);
-            let mut t_7 = t_2;
-            t_7.add_assign(&t_4);
-            input[start_index] = t_6;
-            input[start_index + 1] = t_5;
-            input[start_index + 2] = t_7;
-            input[start_index + 3] = t_4;
+            let si = i * 4;
+            let x0 = input[si];
+            let x1 = input[si + 1];
+            let x2 = input[si + 2];
+            let x3 = input[si + 3];
+
+            // circ(2, 3, 1, 1)
+            let two   = F::from(2u64);
+            let three = F::from(3u64);
+
+            let mut y0 = x0; y0.mul_assign(&two);
+            let mut tmp = x1; tmp.mul_assign(&three); y0.add_assign(&tmp);
+            y0.add_assign(&x2);
+            y0.add_assign(&x3);
+
+            let mut y1 = x1; y1.mul_assign(&two);
+            let mut tmp = x2; tmp.mul_assign(&three); y1.add_assign(&tmp);
+            y1.add_assign(&x0);
+            y1.add_assign(&x3);
+
+            let mut y2 = x2; y2.mul_assign(&two);
+            let mut tmp = x3; tmp.mul_assign(&three); y2.add_assign(&tmp);
+            y2.add_assign(&x0);
+            y2.add_assign(&x1);
+
+            let mut y3 = x3; y3.mul_assign(&two);
+            let mut tmp = x0; tmp.mul_assign(&three); y3.add_assign(&tmp);
+            y3.add_assign(&x1);
+            y3.add_assign(&x2);
+
+            input[si]     = y0;
+            input[si + 1] = y1;
+            input[si + 2] = y2;
+            input[si + 3] = y3;
         }
     }
 
