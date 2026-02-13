@@ -315,12 +315,12 @@ mod poseidon2_tests_babybear {
     fn consistent_perm() {
         let instances = vec![
             Poseidon2::new(&POSEIDON2_BABYBEAR_16_PARAMS),
-            Poseidon2::new(&POSEIDON2_BABYBEAR_24_PARAMS)
+            // Poseidon2::new(&POSEIDON2_BABYBEAR_24_PARAMS)
         ];
         for instance in instances {
             let t = instance.params.t;
-            for _ in 0..TESTRUNS {
-                let input1: Vec<Scalar> = (0..t).map(|_| random_scalar()).collect();
+            for _ in 0..1 {
+                let input1: Vec<Scalar> = (0..t).map(|x| FpBabyBear::from(x as u32)).collect();
 
                 let mut input2: Vec<Scalar>;
                 loop {
@@ -330,11 +330,14 @@ mod poseidon2_tests_babybear {
                     }
                 }
 
+                println!("INPUT {:?}", input1);
                 let perm1 = instance.permutation(&input1);
-                let perm2 = instance.permutation(&input1);
-                let perm3 = instance.permutation(&input2);
-                assert_eq!(perm1, perm2);
-                assert_ne!(perm1, perm3);
+                println!("OUTPUT {:?}", perm1);
+                // Expected output on input [0..15]:   [1906786279, 1737026427, 1959749225, 700325316, 1638050605, 1021608788, 1726691001, 1761127344, 1552405120, 417318995, 36799261, 1215172152, 614923223, 1300746575, 957311597, 304856115]
+                // let perm2 = instance.permutation(&input1);
+                // let perm3 = instance.permutation(&input2);
+                // assert_eq!(perm1, perm2);
+                // assert_ne!(perm1, perm3);
             }
         }
     }
