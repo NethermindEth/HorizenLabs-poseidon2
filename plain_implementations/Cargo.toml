@@ -104,3 +104,7 @@ debug = true
 # (Setting opt-level=1 for debug builds is a good way of speeding them up a bit.)
 # "s" means optimize for size, "z" reduces size even more.
 opt-level = 3
+
+[[bin]]
+name = "hLabsPoseidon2"
+path = "src/poseidon2/poseidon2_pbt.rs"
