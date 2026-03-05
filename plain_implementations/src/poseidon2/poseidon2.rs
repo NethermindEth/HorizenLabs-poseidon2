@@ -83,36 +83,28 @@ impl<F: PrimeField> Poseidon2<F> {
     }
 
     fn matmul_m4(&self, input: &mut[F]) {
+        // Multiply input with the following matrix:
+        //   2, 3, 1, 1
+        //   1, 2, 3, 1
+        //   1, 1, 2, 3
+        //   3, 1, 1, 2
         let t = self.params.t;
         let t4 = t / 4;
         for i in 0..t4 {
             let start_index = i * 4;
-            let mut t_0 = input[start_index];
-            t_0.add_assign(&input[start_index + 1]);
-            let mut t_1 = input[start_index + 2];
-            t_1.add_assign(&input[start_index + 3]);
-            let mut t_2 = input[start_index + 1];
-            t_2.double_in_place();
-            t_2.add_assign(&t_1);
-            let mut t_3 = input[start_index + 3];
-            t_3.double_in_place();
-            t_3.add_assign(&t_0);
-            let mut t_4 = t_1;
-            t_4.double_in_place();
-            t_4.double_in_place();
-            t_4.add_assign(&t_3);
-            let mut t_5 = t_0;
-            t_5.double_in_place();
-            t_5.double_in_place();
-            t_5.add_assign(&t_2);
-            let mut t_6 = t_3;
-            t_6.add_assign(&t_5);
-            let mut t_7 = t_2;
-            t_7.add_assign(&t_4);
-            input[start_index] = t_6;
-            input[start_index + 1] = t_5;
-            input[start_index + 2] = t_7;
-            input[start_index + 3] = t_4;
+
+            let two   = F::from(2u64);
+            let three = F::from(3u64);
+
+            let input_0: F = input[start_index];
+            let input_1: F = input[start_index + 1];
+            let input_2: F = input[start_index + 2];
+            let input_3: F = input[start_index + 3];
+
+            input[start_index]     = input_0.mul(two)   .add(input_1.mul(three)) .add(input_2)            .add(input_3);
+            input[start_index + 1] = input_0            .add(input_1.mul(two))   .add(input_2.mul(three)) .add(input_3);
+            input[start_index + 2] = input_0            .add(input_1)            .add(input_2.mul(two))   .add(input_3.mul(three));
+            input[start_index + 3] = input_0.mul(three) .add(input_1)            .add(input_2)            .add(input_3.mul(two));
         }
     }
 
