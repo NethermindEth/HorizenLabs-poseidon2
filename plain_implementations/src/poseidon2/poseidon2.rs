@@ -304,6 +304,27 @@ mod poseidon2_tests_babybear {
     static TESTRUNS: usize = 5;
 
     #[test]
+    fn simple_tests() {
+        let instance16 = Poseidon2::new(&POSEIDON2_BABYBEAR_16_PARAMS);
+        let instance24 = Poseidon2::new(&POSEIDON2_BABYBEAR_24_PARAMS);
+
+        let input16A: Vec<Scalar> = (0..16).map(|x: usize| FpBabyBear::from(x as u32)).collect();
+        let input16B: Vec<Scalar> = (0..16).map(|x: usize| FpBabyBear::from(15 - x as u32)).collect();
+        let input24A: Vec<Scalar> = (0..24).map(|x: usize| FpBabyBear::from(x as u32)).collect();
+        let input24B: Vec<Scalar> = (0..24).map(|x: usize| FpBabyBear::from(23 - x as u32)).collect();
+
+        let perm16A = instance16.permutation(&input16A);
+        let perm16B = instance16.permutation(&input16B);
+        let perm24A = instance24.permutation(&input24A);
+        let perm24B = instance24.permutation(&input24B);
+        
+        println!("perm16A: {:?}", perm16A);
+        println!("perm16B: {:?}", perm16B);
+        println!("perm24A: {:?}", perm24A);
+        println!("perm24B: {:?}", perm24B);
+    }
+
+    #[test]
     fn consistent_perm() {
         let instances = vec![
             Poseidon2::new(&POSEIDON2_BABYBEAR_16_PARAMS),
