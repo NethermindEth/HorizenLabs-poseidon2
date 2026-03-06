@@ -326,10 +326,10 @@ mod poseidon2_tests_babybear {
         let perm24A = instance24.permutation(&input24A);
         let perm24B = instance24.permutation(&input24B);
         
-        println!("perm16A: {:?}", perm16A);
-        println!("perm16B: {:?}", perm16B);
-        println!("perm24A: {:?}", perm24A);
-        println!("perm24B: {:?}", perm24B);
+        println!("perm16A [0..15]: {:?}", perm16A);
+        println!("perm16B [15..0]: {:?}", perm16B);
+        println!("perm24A [0..23]: {:?}", perm24A);
+        println!("perm24B [23..0]: {:?}", perm24B);
     }
 
     #[test]
