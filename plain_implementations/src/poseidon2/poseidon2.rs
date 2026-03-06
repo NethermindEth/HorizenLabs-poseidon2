@@ -76,6 +76,14 @@ impl<F: PrimeField> Poseidon2<F> {
                 out.mul_assign(input);
                 out
             }
+            11 => {
+                let mut out = input2; // input ^ 2
+                out.square_in_place(); // input ^ 4
+                out.square_in_place(); // input ^ 8
+                out.mul_assign(&input2); // input ^ 10
+                out.mul_assign(input); // input ^ 11
+                out
+            }
             _ => {
                 panic!()
             }
