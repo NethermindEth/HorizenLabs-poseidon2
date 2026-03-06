@@ -2021,7 +2021,7 @@ lazy_static! {
 
     pub static ref POSEIDON2_BABYBEAR_16_PARAMS: Arc<Poseidon2Params<Scalar>> = Arc::new(Poseidon2Params::new(16, 7, 8, 13, &MAT_DIAG16_M_1, &MAT_INTERNAL16, &RC16));
     
-    pub static ref POSEIDON2_BABYBEAR_24_PARAMS: Arc<Poseidon2Params<Scalar>> = Arc::new(Poseidon2Params::new(24, 7, 8, 21, &MAT_DIAG24_M_1, &MAT_INTERNAL24, &RC24));
+    pub static ref POSEIDON2_BABYBEAR_24_PARAMS: Arc<Poseidon2Params<Scalar>> = Arc::new(Poseidon2Params::new(24, 11, 8, 21, &MAT_DIAG24_M_1, &MAT_INTERNAL24, &RC24));
     
 
 }
